@@ -1,0 +1,47 @@
+.bar {
+  height: 59px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.logo {
+  width: 30px; height: 30px; border-radius: 10px;
+  background: var(--accent-gradient);
+  color: #fff; font-weight: 800; font-size: 16px;
+  display: grid; place-items: center;
+}
+.wordmark { font-size: 17px; font-weight: 800; }
+
+.navPill {
+  display: flex; gap: 2px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px;
+}
+.tab {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 20px; border-radius: 999px;
+  font-size: 13px; font-weight: 600;
+  color: var(--text-secondary); text-decoration: none;
+  transition: background 150ms ease, color 150ms ease;
+}
+.tabActive { background: var(--accent); color: #160A2E; }
+.badge {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--hot-pink); color: #fff;
+  font-size: 10px; font-weight: 700;
+  display: grid; place-items: center;
+}
+
+.user { display: flex; align-items: center; gap: 10px; }
+.userId {
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: 1px;
+  color: var(--text-faint);
+}
+.meAvatar { width: 32px; height: 32px; border-radius: 50%; background: #2F2450; }
