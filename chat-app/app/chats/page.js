@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import TopBar from "../components/TopBar";
+import TopBar from "./components/TopBar";
 import { CHATS, MESSAGES, STICKERS, AVATAR_COLORS } from "../lib/sampleData";
 import styles from "./chats.module.css";
 
