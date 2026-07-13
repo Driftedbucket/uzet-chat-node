@@ -60,4 +60,37 @@ function Message({msg}){
       </div>
     </div>;
   }
+
+  return <div className={`${styles.msgRow} ${out ? styles.rowOut : ""}`}>
+    <div>
+      <div className={`${styles.bubble} ${out ? styles.bubbleOut : styles.bubbleIn}`}>
+        {msg.sender && <div className={styles.sender}>{msg.sender}</div>}
+        {msg.text}
+      </div>
+      <div className={`${styles.time} ${out ? styles.timeOut : ""}`}>{msg.time}</div>
+    </div>
+  </div>;
+}
+
+export default function ChatsPage(){
+  const [activeChatId, setActiveChatId] = useState(CHATS[0].id);
+  const [messagesByChat, setMessagesByChat] = useState(MESSAGES);
+  const [draft, setDraft] = useState("");
+  const [trayOpen, setTrayOpen] = useState(false);
+
+  const activeChat = CHATS.find((c) => c.id === activeChatId);
+  const messages = messagesByChat[activeChatId] || [];
+
+  function sendMessage(msg) {
+    setMessagesByChat((prev) => ({
+      ...prev,
+      [activeChatId]: [{ id: Date.now(), direction: "out", time: "now", ...msg }, ...(prev[activeChatId] || [])],
+    }));
+  }
+
+  function sendText() {
+    if (!draft.trim()) return;
+    sendMessage({ type: "text", text: draft.trim() });
+    setDraft("");
+  }
 }
