@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import TopBar from "./components/TopBar";
+import TopBar from "../components/TopBar";
 import styles from "./add.module.css";
 
 const FAKE_USER = { name: "kai.mp4", id: "UZT-2H8V", mutuals: "2 mutuals: juno, theo" };
