@@ -64,5 +64,28 @@ router.post("/register", async (req, res) => {
   }
 });
 
+//POST auth/login
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await prisma.user.findUnique({ where: { email } });
+    //vague error: never reveal whether the email exists
+    if (!user) return res.status(401).json({ error: "invalid credentials" });
+
+    const valid = await bcrypt.compare(password, user.passwordHash);
+    if (!valid) return res.status(401).json({ error: "invalid credentials" });
+
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+
+    res.json({
+      token,
+      user: { id: user.id, name: user.name, uzetId: user.uzetId },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "something went wrong" });
+  }
+});
 
 
