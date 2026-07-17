@@ -20,3 +20,16 @@ model User{
   passwordHash String
   createdAt    DateTime @default(now())
 }
+
+model FriendRequest{
+  id Int @id  @default(autoincrement())
+  fromUser User @relation("sent", fields: [fromUserId], references: [id])
+  fromUserId Int
+  toUser User @relation("received", fields: [toUserId], references: [id])
+  toUserId Int
+  note String?
+  status String @default("PENDING") //pednig|accepted|dclined
+  createdAt  DateTime @default(now())
+
+  @@unique([fromUserId, toUserId])
+}
