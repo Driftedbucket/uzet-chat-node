@@ -20,7 +20,7 @@ model User{
   passwordHash String
   createdAt    DateTime @default(now())
 
-  sentRequests FriendRerquest[] @relation("sent")
+  sentRequests FriendRequest[] @relation("sent")
   receiveRequests FriendRequest[] @relation("received")
 }
 
