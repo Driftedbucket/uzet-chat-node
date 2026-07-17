@@ -14,11 +14,14 @@ datasource db {
 
 model User{
   id           Int      @id @default(autoincrement())
-  uzetId       String   @unique   // UZT-XXXX — public identity
+  uzetId       String   @unique   // UZT-XXXX --> public identity
   name         String
   email        String   @unique
   passwordHash String
   createdAt    DateTime @default(now())
+
+  sentRequests FriendRerquest[] @relation("sent")
+  receiveRequests FriendRequest[] @relation("received")
 }
 
 model FriendRequest{
