@@ -125,3 +125,5 @@ router.get("/", async (req, res) => {
 
   res.json({ friends });
 });
+
+module.exports=router;
