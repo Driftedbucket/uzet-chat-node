@@ -78,3 +78,31 @@ router.get("/requests", async (req, res) => {
   });
   res.json({ requests });
 });
+
+//PATCH /frriends/requests/:id ("accept"||"decline")
+router.patch("/requests/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  const { action } = req.body;
+
+  if (!["accept", "decline"].includes(action)) {
+    return res.status(400).json({ error: "action must be accept or decline" });
+  }
+
+  const request = await prisma.friendRequest.findUnique({ where: { id } });
+  if (!request) return res.status(404).json({ error: "request not found" });
+
+  // ***AUTHORIZATION***: only recipient can answer, and only once
+  if (request.toUserId !== req.userId) {
+    return res.status(403).json({ error: "not your request" });
+  }
+  if (request.status !== "PENDING") {
+    return res.status(409).json({ error: "already answered" });
+  }
+
+  const updated = await prisma.friendRequest.update({
+    where: { id },
+    data: { status: action === "accept" ? "ACCEPTED" : "DECLINED" },
+  });
+
+  res.json({ request: updated });
+});
