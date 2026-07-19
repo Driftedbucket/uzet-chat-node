@@ -68,3 +68,13 @@ router.post("/requests", async (req, res) => {
 
   res.status(201).json({ request });
 });
+
+//GET /friends/requests
+router.get("/requests", async (req, res) => {
+  const requests = await prisma.friendRequest.findMany({
+    where: { toUserId: req.userId, status: "PENDING" },
+    include: { fromUser: { select: PUBLIC_USER } },
+    orderBy: { createdAt: "desc" },
+  });
+  res.json({ requests });
+});
