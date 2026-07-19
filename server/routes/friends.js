@@ -106,3 +106,22 @@ router.patch("/requests/:id", async (req, res) => {
 
   res.json({ request: updated });
 });
+
+//GET /friends
+router.get("/", async (req, res) => {
+  const accepted = await prisma.friendRequest.findMany({
+    where: {
+      status: "ACCEPTED",
+      OR: [{ fromUserId: req.userId }, { toUserId: req.userId }],
+    },
+    include: {
+      fromUser: { select: PUBLIC_USER },
+      toUser: { select: PUBLIC_USER },
+    },
+  });
+    const friends = accepted.map((r) =>
+    r.fromUserId === req.userId ? r.toUser : r.fromUser
+  );
+
+  res.json({ friends });
+});
