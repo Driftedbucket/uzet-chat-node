@@ -36,3 +36,35 @@ router.get("/search", async (req, res) => {
 
   res.json({ user, existingStatus: existing?.status || null });
 });
+
+//POST /friends/requests {toUserId,note?} 
+router.post("/requests", async (req, res) => {
+  const { toUserId, note } = req.body;
+
+  if (!toUserId || toUserId === req.userId) {
+    return res.status(400).json({ error: "invalid recipient" });
+  }
+
+  const target = await prisma.user.findUnique({ where: { id: toUserId } });
+  if (!target) return res.status(404).json({ error: "user not found" });
+
+  //block duplicates
+  //requested you, the answer is "check your inbox", not a new request
+  const existing = await prisma.friendRequest.findFirst({
+    where: {
+      OR: [
+        { fromUserId: req.userId, toUserId },
+        { fromUserId: toUserId, toUserId: req.userId },
+      ],
+    },
+  });
+  if (existing) {
+    return res.status(409).json({ error: "request already exists", status: existing.status });
+  }
+
+  const request = await prisma.friendRequest.create({
+    data: { fromUserId: req.userId, toUserId, note: note || null },
+  });
+
+  res.status(201).json({ request });
+});
