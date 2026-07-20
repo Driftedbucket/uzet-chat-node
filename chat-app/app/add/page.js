@@ -59,6 +59,8 @@ export default function AddPage() {
     return <button className={styles.requestBtn} onClick={requestAccess}>request access</button>;
   }
 
+
+  //REFACTOR TO DYNAMICALLY RENDER 
   return (
     <div className={styles.screen}>
       <TopBar />
