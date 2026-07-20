@@ -2,19 +2,38 @@
 import { useState } from "react";
 import TopBar from "../components/TopBar";
 import styles from "./add.module.css";
-
+import {apiFetch} from "../lib/api";
 const FAKE_USER = { name: "kai.mp4", id: "UZT-2H8V", mutuals: "2 mutuals: juno, theo" };
+
 
 export default function AddPage() {
   const [query, setQuery] = useState("");
   const [result, setResult] = useState(null);   //null | user | "none"
   const [requested, setRequested] = useState(false);
+  const [status, setStatus] = useState(null);
+  const [error,setError] = useState("");
 
-  function search() {
-    if (!query.trim()) return;
-    // fake for neeow: exact match on our sample user, otherwise there'd beno match
-    setRequested(false);
-    setResult(query.trim().toUpperCase() === FAKE_USER.id ? FAKE_USER : "none");
+  async function search() {
+    const q = query.trim();
+    if (!q) return;
+
+    setLoading(true);
+    setError("");
+    setResult(null);
+
+    try {
+      const data = await apiFetch(`/friends/search?uzetId=${encodeURIComponent(q)}`);
+      if (!data.user) {
+        setResult(false);
+      } else {
+        setResult(data.user);
+        setStatus(data.existingStatus); // may already be PENDING/ACCEPTED
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
