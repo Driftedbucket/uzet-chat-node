@@ -51,6 +51,14 @@ export default function AddPage() {
     }
   }
 
+  function buttonFor(status) {
+    if (status === "PENDING")
+      return <button className={styles.requestedBtn} disabled>requested ✓</button>;
+    if (status === "ACCEPTED")
+      return <button className={styles.requestedBtn} disabled>added ✓</button>;
+    return <button className={styles.requestBtn} onClick={requestAccess}>request access</button>;
+  }
+
   return (
     <div className={styles.screen}>
       <TopBar />
