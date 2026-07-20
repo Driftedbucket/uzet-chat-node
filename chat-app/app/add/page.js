@@ -27,12 +27,27 @@ export default function AddPage() {
         setResult(false);
       } else {
         setResult(data.user);
-        setStatus(data.existingStatus); // may already be PENDING/ACCEPTED
+        setStatus(data.existingStatus); //coould be PENDING/ACCEPTED
       }
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function requestAccess() {
+    //optimistic: flip the button immediately
+    setStatus("PENDING");
+    try {
+      await apiFetch("/friends/requests", {
+        method: "POST",
+        body: JSON.stringify({ toUserId: result.id }),
+      });
+    } catch (err) {
+      //roll backfor when the server says no
+      setStatus(null);
+      setError(err.message);
     }
   }
 
