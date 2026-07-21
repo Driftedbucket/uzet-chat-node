@@ -3,21 +3,36 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ME } from "../lib/sampleData";
 import styles from "./TopBar.module.css";
-
-const TABS = [
-    {href:"/chats", label:"chats"},
-    {href:"/add", label:"add friends"},
-    {href:"/request", label:"requests",badge:3},  
-];
+import {apiFetch} from "../lib/api";
 
 export default function Topbar(){
-    const pathname = usePathname
+    const pathname = usePathname();
+    const [pendingCount, setPendingCount]=useState(0);
+    const [me,setMe] = useState(null);
+
+    useEffect(()=>{
+      //get logged in user from login/refgister
+      const stored = localStorage.getItem("user");
+      if(stored) setMe(JSON.parse(stored));
+
+      apiFetch("/friends/requests")
+      .then((data)=>setpendingCount(data.requests.length))
+      .catch(()=>{});//if not logged in or server is down--badgw stys hidden
+    })
     
-    return(<header>
-        <div className={styles.brand}>
+    const TABS=[
+      {href:"/chats", label:"chats"},
+      {href:"/add", label:"add friends"},
+      {href:"/requests", label:"requests", badge:pendingCount}
+    ];
+
+    return(
+    <header className={styles.bar}>
+      <div className={styles.brand}>
         <div className={styles.logo}>u</div>
         <span className={styles.wordmark}>uzet</span>
       </div>
+
 
       <nav className={styles.navPill}>
         {TABS.map((tab) => (
@@ -33,8 +48,11 @@ export default function Topbar(){
       </nav>
 
       <div className={styles.user}>
-        <span className={styles.userId}>{ME.id}</span>
+        <span className={styles.userId}>{me?.uzetId || ""}</span>
         <div className={styles.meAvatar} />
       </div>
-    </header>)
+    </header>
+  );
 }
+
+//ts bs is not commiting
