@@ -3,10 +3,36 @@ import { useState } from "react";
 import TopBar from "../components/TopBar";
 import { AVATAR_COLORS } from "../lib/sampleData";
 import styles from "./request.module.css";
-
+import {apiFetch} from "../lib/api"
 
 export default function RequestsPage() {
-  const [requests, setRequests] = useState(INITIAL_REQUESTS);
+  const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [answered, setAnswered] = useState({});
+
+  useEffect(()=>{
+    apiFetch("/friiends/requests")
+    .then((data)=>setRequests(data.requests))
+    .catch(console.error)
+    .finally(()=>setLoading(false))
+  },[]);
+
+  async function respond(id, action){
+    setAnswered((prev) => ({ ...prev, [id]: action + "ed" })); // optimistic
+    try {
+      await apiFetch(`/friends/requests/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ action }),
+      });
+    } catch (err) {
+      setAnswered((prev) => {
+        const next = { ...prev };
+        delete next[id]; //roll it back
+        return next;
+      });
+      console.error(err);
+    }
+  }
 
   function setStatus(id, status) {
     setRequests((prev) =>
