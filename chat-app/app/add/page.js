@@ -73,37 +73,30 @@ export default function AddPage() {
             className={styles.searchInput}
             placeholder="UZT-XXXX"
             value={query}
-            onChange={(e) => { setQuery(e.target.value); setResult(null); }}
+            onChange={(e) => { setQuery(e.target.value); setResult(null); setError(""); }}
             onKeyDown={(e) => e.key === "Enter" && search()}
           />
-          <button className={styles.searchBtn} onClick={search}>search</button>
+          <button className={styles.searchBtn} onClick={search} disabled={loading}>
+            {loading ? "..." : "search"}
+          </button>
         </div>
 
-        <div className={styles.chips}>
-          <span className={styles.tryLabel}>try:</span>
-          <button className={styles.chip} onClick={() => setQuery("UZT-2H8V")}>UZT-2H8V</button>
-        </div>
+        {error && <p className={styles.noMatch}>{error}</p>}
 
-        {result === "none" && <p className={styles.noMatch}>no one with that id</p>}
-
-        {result && result !== "none" && (
+        {result && (
           <div className={styles.resultCard}>
             <div className={styles.resultAvatar}>{result.name[0]}</div>
             <div className={styles.resultInfo}>
               <div className={styles.resultName}>{result.name}</div>
               <div className={styles.resultMeta}>
-                <span className={styles.resultId}>{result.id}</span> · {result.mutuals}
+                <span className={styles.resultId}>{result.uzetId}</span>
               </div>
             </div>
-            <button
-              className={requested ? styles.requestedBtn : styles.requestBtn}
-              disabled={requested}
-              onClick={() => setRequested(true)}
-            >
-              {requested ? "requested ✓" : "request access"}
-            </button>
+            {buttonFor(status)}
           </div>
         )}
+
+        {result === false && <p className={styles.noMatch}>no one with that id</p>}
       </div>
     </div>
   );
