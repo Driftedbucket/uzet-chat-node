@@ -34,11 +34,11 @@ export default function RequestsPage() {
     }
   }
 
-  function setStatus(id, status) {
+  /* function setStatus(id, status) {
     setRequests((prev) =>
       prev.map((r) => (r.id === id ? { ...r, status } : r))
     );
-  }
+  } */
   return (
     <div className={styles.screen}>
       <TopBar />
@@ -47,35 +47,37 @@ export default function RequestsPage() {
         <p className={styles.sub}>these people have your id and want to chat. your call.</p>
 
         <div className={styles.list}>
-          {requests.map((req, i) => (
-            <div key={req.id} className={styles.card}>
-              <div
-                className={styles.avatar}
-                style={{ background: AVATAR_COLORS[i % AVATAR_COLORS.length] }}
-              >
-                {req.name[0]}
-              </div>
-              <div className={styles.info}>
-                <div className={styles.name}>{req.name}</div>
-                <div className={styles.meta}>
-                  <span className={styles.reqId}>{req.uzetId}</span> · {req.note}
-                </div>
-              </div>
+          {loading && <p className={styles.sub}>loading…</p>}
 
-              {req.status === "pending" && (
-                <div className={styles.actions}>
-                  <button className={styles.decline} onClick={() => setStatus(req.id, "declined")}>
-                    decline
-                  </button>
-                  <button className={styles.accept} onClick={() => setStatus(req.id, "accepted")}>
-                    accept
-                  </button>
+          {!loading && requests.length === 0 && (
+            <p className={styles.sub}>no pending requests. quiet in here.</p>
+          )}
+
+          {requests.map((req, i) => {
+            const state = answered[req.id]; //undefined|"accepteed"|"declined"
+            return (
+              <div key={req.id} className={styles.card}>
+                <div className={styles.avatar} style={{ background: AVATAR_COLORS[i % AVATAR_COLORS.length] }}>
+                  {req.fromUser.name[0]}
                 </div>
-              )}
-              {req.status === "accepted" && <span className={styles.added}>added ✓</span>}
-              {req.status === "declined" && <span className={styles.declined}>declined</span>}
-            </div>
-          ))}
+                <div className={styles.info}>
+                  <div className={styles.name}>{req.fromUser.name}</div>
+                  <div className={styles.meta}>
+                    <span className={styles.reqId}>{req.fromUser.uzetId}</span> · {req.note || "no note attached"}
+                  </div>
+                </div>
+
+                {!state && (
+                  <div className={styles.actions}>
+                    <button className={styles.decline} onClick={() => respond(req.id, "decline")}>decline</button>
+                    <button className={styles.accept} onClick={() => respond(req.id, "accept")}>accept</button>
+                  </div>
+                )}
+                {state === "accepted" && <span className={styles.added}>added ✓</span>}
+                {state === "declined" && <span className={styles.declined}>declined</span>}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
