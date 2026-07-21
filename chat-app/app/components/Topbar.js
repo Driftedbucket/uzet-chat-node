@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ME } from "../lib/sampleData";
-import styles from "./TopBar.module.css";
+import styles from "./Topbar.module.css";
 import {apiFetch} from "../lib/api";
 
 export default function Topbar(){
