@@ -45,5 +45,48 @@ export default function AuthPage() {
     setTimeout(() => setCopied(false), 1500);
   }
 
+  if(newUser){
+    return(
+        <div></div>
+    );
+  }
+
+  //auth/signup/register/iishangitha form
+  return(
+    <div className={styles.screen}>
+      <div className={styles.logoMark}>u</div>
+      <h1 className={styles.hero}>uzet</h1>
+      <p className={styles.sub}>
+        {mode === "register" ? "make an account. get your id. disappear from search." : "welcome back."}
+      </p>
+
+      <div className={styles.card}>
+        {mode === "register" && (
+          <input className={styles.field} placeholder="name"
+            value={name} onChange={(e) => setName(e.target.value)} />
+        )}
+        <input className={styles.field} placeholder="email" type="email"
+          value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input className={styles.field} placeholder="password" type="password"
+          value={password} onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && submit()} />
+
+        {error && <p className={styles.error}>{error}</p>}
+
+        <button className={styles.cta} onClick={submit} disabled={loading}>
+          {loading ? "..." : mode === "register" ? "create account" : "log in"}
+        </button>
+
+        <p className={styles.switchMode}>
+          {mode === "register" ? (
+            <>already have an id? <button onClick={() => { setMode("login"); setError(""); }}>log in</button></>
+          ) : (
+            <>new here? <button onClick={() => { setMode("register"); setError(""); }}>create account</button></>
+          )}
+        </p>
+      </div>
+    </div>
+  );
+
 }
 
