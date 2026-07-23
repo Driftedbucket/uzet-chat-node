@@ -15,6 +15,29 @@ export default function AuthPage() {
   const [newUser, setNewUser] = useState(null); //set only after registeringg→ shows onboarding
   const [copied, setCopied] = useState(false);
 
+  async function submit() {
+    setError("");
+    setLoading(true);
+    try {
+      const path = mode === "register" ? "/auth/register" : "/auth/login";
+      const body = mode === "register" ? { name, email, password } : { email, password };
+
+      const data = await apiFetch(path, { method: "POST", body: JSON.stringify(body) });
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      if (mode === "register") {
+        setNewUser(data.user); //stay here,show new id
+      } else {
+        router.push("/chats");
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
 
 }
 
