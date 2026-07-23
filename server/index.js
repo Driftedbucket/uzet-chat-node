@@ -5,7 +5,7 @@ const authRoutes = require("./routes/auth");
 
 const app = express();
 
-app.use(cors({origin: "http;//localhost:3000"}));
+app.use(cors({origin: "http://localhost:3000"}));
 app.use(express.json());
 
 app.get("/health", (req, res) => res.json({ ok: true }));
@@ -27,3 +27,7 @@ app.get("/me", requireAuth, async (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`uzet api running on :${PORT}`));
+
+//Friends routes
+const friendRoutes=require("./routes/friends");
+app.use("/friends", friendRoutes);
