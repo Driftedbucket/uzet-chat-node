@@ -5,7 +5,7 @@ export async function apiFetch(path, options={}){
     const res = await fetch(`${API}${path}`, {
         ...options,headers:{
             "Content-Type":"application/json",
-            ...(token?{Authorization:`Bearer${token}`}:{}),
+            ...(token?{Authorization:`Bearer ${token}`}:{}),
             ...options.headers,
         },
     });
