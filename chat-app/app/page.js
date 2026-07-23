@@ -45,9 +45,26 @@ export default function AuthPage() {
     setTimeout(() => setCopied(false), 1500);
   }
 
+  //post-signup onboarding/konima sho wiishangitha "hi, you're in/wuuhala po, omo wuli"
   if(newUser){
     return(
-        <div></div>
+    <div className={styles.screen}>
+        <div className={styles.logoMark}>u</div>
+        <h1 className={styles.hero}>hi. you&apos;re in.</h1>
+        <p className={styles.sub}>
+          uzet is invite-only by design. your id is the only way anyone finds you.
+        </p>
+        <div className={styles.idPill}>
+          <span className={styles.idLabel}>your id</span>
+          <span className={styles.idValue}>{newUser.uzetId}</span>
+          <button className={styles.copyBtn} onClick={copyId}>
+            {copied ? "copied ✓" : "copy"}
+          </button>
+        </div>
+        <button className={styles.cta} onClick={() => router.push("/chats")}>
+          start chatting
+        </button>
+      </div>
     );
   }
 
