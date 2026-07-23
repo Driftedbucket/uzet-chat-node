@@ -1,142 +1,104 @@
-.page {
-  --background: #fafafa;
-  --foreground: #fff;
-
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
+.screen {
+  min-height: 100vh;
   display: flex;
-  flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
+  gap: 30px;
+  background: radial-gradient(900px 500px at 50% -10%, #1D1235 0%, #0B0814 60%);
 }
 
-.main {
-  display: flex;
-  flex: 1;
-  width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+.logoMark {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  background: var(--accent-gradient);
+  color: #fff;
+  font-size: 32px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  box-shadow: var(--glow);
 }
 
-.intro {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
-}
-
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
-}
-
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
+.hero { font-size: 58px; font-weight: 800; letter-spacing: -2.5px; }
+.sub {
+  font-size: 17px;
   color: var(--text-secondary);
+  max-width: 420px;
+  text-align: center;
+  margin-top: -10px;
 }
 
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
-}
 
-.ctas {
+.card {
+  width: 380px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 26px;
   display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
+  flex-direction: column;
+  gap: 12px;
+}
+.field {
+  background: var(--bg-app);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 13px 20px;
   font-size: 14px;
+  color: var(--text-primary);
+  transition: border-color 150ms ease;
+}
+.field:focus { border-color: var(--accent); }
+.error { font-size: 12.5px; color: var(--hot-pink); text-align: center; }
+.switchMode {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+.switchMode button {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
 }
 
-.ctas a {
+.idPill {
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
-  width: fit-content;
+  gap: 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 12px 12px 12px 26px;
+}
+.idLabel { font-size: 13px; color: var(--text-secondary); }
+.idValue {
+  font-family: var(--font-mono);
+  font-size: 20px;
   font-weight: 500;
+  letter-spacing: 3px;
+  color: var(--accent);
 }
-
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
+.copyBtn {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: #251C3D;
+  border-radius: 999px;
+  padding: 9px 16px;
+  transition: background 150ms ease;
 }
+.copyBtn:hover { background: #2F2450; }
 
-a.secondary {
-  border-color: var(--button-secondary-border);
+.cta {
+  background: var(--accent-gradient);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 16px 48px;
+  box-shadow: var(--glow);
+  transition: box-shadow 150ms ease;
 }
-
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
-}
-
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
-  }
-
-  .intro {
-    gap: 16px;
-  }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
-
-  .page {
-    --background: #000;
-    --foreground: #000;
-
-    --text-primary: #ededed;
-    --text-secondary: #999;
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
-  }
-}
+.cta:hover { box-shadow: var(--glow-strong); }
