@@ -39,5 +39,11 @@ export default function AuthPage() {
     }
   }
 
+  function copyId() {
+    navigator.clipboard.writeText(newUser.uzetId);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  }
+
 }
 
