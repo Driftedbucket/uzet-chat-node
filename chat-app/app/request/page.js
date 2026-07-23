@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import TopBar from "../components/TopBar";
+import { useState,useEffect } from "react";
+import TopBar from "../components/Topbar";
 import { AVATAR_COLORS } from "../lib/sampleData";
 import styles from "./request.module.css";
 import {apiFetch} from "../lib/api"
@@ -11,7 +11,7 @@ export default function RequestsPage() {
   const [answered, setAnswered] = useState({});
 
   useEffect(()=>{
-    apiFetch("/friiends/requests")
+    apiFetch("/friends/requests")
     .then((data)=>setRequests(data.requests))
     .catch(console.error)
     .finally(()=>setLoading(false))
