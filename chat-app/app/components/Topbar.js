@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { ME } from "../lib/sampleData";
 import styles from "./Topbar.module.css";
 import {apiFetch} from "../lib/api";
+import {useState, useEffect} from 'react';
 
 export default function Topbar(){
     const pathname = usePathname();
