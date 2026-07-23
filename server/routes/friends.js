@@ -6,7 +6,7 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 //all routes here require a user tyo be logged in
-router.use(requireAuth()); 
+router.use(requireAuth); 
 
 const PUBLIC_USER = {id:true, name:true, uzetId:true};
 
