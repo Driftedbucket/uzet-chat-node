@@ -41,8 +41,8 @@ model FriendRequest{
 }
 
 model Message{
-  id Int @id @default(@autoincrement())
-  fromUser User @relation("megSent", fields:[fromUserId], references:[id])
+  id         Int      @id @default(autoincrement())
+  fromUser   User     @relation("msgSent", fields: [fromUserId], references: [id])
   fromUserId Int
   toUser User @relation("msgReceived", fields:[toUserId], references:[id])
   toUserId Int
