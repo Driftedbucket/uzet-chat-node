@@ -22,6 +22,9 @@ model User{
 
   sentRequests FriendRequest[] @relation("sent")
   receiveRequests FriendRequest[] @relation("received")
+  
+  sentMessages Message[] @relation("msgSent")
+  receivedMessages Message[] @relation("msgReceived")
 }
 
 model FriendRequest{
