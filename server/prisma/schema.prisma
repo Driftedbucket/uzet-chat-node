@@ -36,3 +36,16 @@ model FriendRequest{
 
   @@unique([fromUserId, toUserId])
 }
+
+model Message{
+  id Int @id @default(@autoincrement())
+  fromUser User @relation("megSent", fields:[fromUserId], references:[id])
+  fromUserId Int
+  toUser User @relation("msgReceived", fields:[toUserId], references:[id])
+  toUserId Int
+  type String   @default("text")  //text|sticker|voice|video
+  content String 
+  createdAt  DateTime @default(now())
+
+  @@index([fromUserId, toUserId, createdAt])
+}
